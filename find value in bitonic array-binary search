@@ -40,7 +40,7 @@ int calculate(int arr[],int n,int value){
 
         result=binarysearch(brr,0,index,value);
 
-    if(result==1) return result;
+    if(result>-1) return result;
     else if (result==-1)
         result=binarysearch(crr,0,n-index-1-1,value);
        if(result!=-1)
