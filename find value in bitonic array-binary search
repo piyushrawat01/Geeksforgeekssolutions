@@ -43,8 +43,9 @@ int calculate(int arr[],int n,int value){
     if(result==1) return result;
     else if (result==-1)
         result=binarysearch(crr,0,n-index-1-1,value);
-
+       if(result!=-1)
     return index+result+1;
+       else return result;
 
 }
 int binarysearch(int arr[],int start,int end,int value){
