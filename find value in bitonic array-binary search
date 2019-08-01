@@ -1,0 +1,64 @@
+#include <stdio.h>
+void getArray();
+int calculate();
+int binarysearch();
+int main() {
+    int times;
+    scanf("%d",&times);
+    while(times!=0)
+    {
+        int n;
+        scanf("%d",&n);
+        int arr[n];
+        getArray(arr,n);
+       int value;
+    scanf("%d",&value);
+      int index=calculate(arr,n,value);
+        printf("%d",index);
+        times--;
+    }
+    return 0;
+}
+
+void getArray(int arr[],int n){
+    for(int i=0;i<n;i++)
+        scanf("%d",&arr[i]);
+}
+int calculate(int arr[],int n,int value){
+int index=0;
+for(int i=0;i<n;i++){
+if(arr[i]<arr[i+1])
+index++;
+else break;
+}
+int brr[n-index-1],result;
+
+for(int i=0;i<n-index-1;i++)  
+    brr[i]=arr[i+index+1];
+  result=binarysearch(arr,0,index,value);
+  if(result==1)
+  return result;
+  else{
+  result=binarysearch(brr,0,n-index-1-1,value);
+  return result+index+1;
+      }
+}
+int binarysearch(int arr[],int start,int end,int value){
+    if(start<end){
+        int mid=(start+end)/2;
+        if(arr[mid]==value){
+            return mid;
+        }else if(arr[mid]<value){
+           if(arr[start]>arr[end])
+           start=mid+1;
+           else end=mid;
+            binarysearch(arr,start,end,value);
+        }else{
+            if(arr[start]>arr[end])
+            end=mid;
+            else start=mid+1;
+            binarysearch(arr,start,end,value);
+        }
+    }
+    return -1;
+}
