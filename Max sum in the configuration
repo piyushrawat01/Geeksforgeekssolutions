@@ -1,0 +1,73 @@
+#include <stdio.h>
+void getArray();
+int calculate();
+void leftRotatearray();
+void reverseArray();
+int calculate();
+int max_sum();
+int main() {
+    int times;
+    scanf("%d",&times); //Number of test cases 
+    while(times!=0)
+    {
+        int n;
+        scanf("%d",&n); //values inside array
+        int arr[n];
+        getArray(arr,n);
+        int result=max_sum(arr,n); //function to check if value exists in the array
+        printf("%d ",result);
+        printf("\n");
+        times--;
+    }
+    return 0;
+}
+int max_sum(int arr[],int n){ 
+int A[n];
+for(int j=0;j<n;j++)
+A[j]=arr[j];
+int index=0,brr[n];
+for(int i=0;i<n;i++){
+leftRotatearray(arr,i,n);
+brr[i]=calculate(arr,n-1);
+for(int j=0;j<n;j++)
+arr[j]=A[j];
+}
+int max=0;
+for(int i=0;i<n;i++){
+if(brr[i]>=max)
+max=brr[i];
+}
+return max;
+}
+int  calculate(int arr[],int n){
+    int sum=0;
+    for(int i=0;i<=n;i++){
+        sum=sum+(arr[i]*i);
+    }
+    return sum;
+}
+void getArray(int arr[],int n){
+    for(int i=0;i<n;i++)
+        scanf("%d",&arr[i]);
+}
+void leftRotatearray(int arr[],int breakpoint,int n){
+    reverseArray(arr,0,breakpoint,breakpoint+1); //(array,start,end,no.of elements)
+    reverseArray(arr,breakpoint+1,n-1,n-breakpoint-1);
+    reverseArray(arr,0,n-1,n);
+
+}
+void reverseArray(int arr[],int start,int end,int n){
+    int j=0,i=n;
+    int start2=start,end2=end;
+    while(start2<end2){
+        swap(&arr[start2],&arr[end2]);
+        start2++;
+        end2--;
+    }
+
+}
+void swap(int *x,int *y){
+    int temp=*x;
+    *x=*y;
+    *y=temp;
+}
