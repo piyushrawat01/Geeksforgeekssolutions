@@ -22,51 +22,50 @@ int main() {
     return 0;
 }
 int max_sum(int arr[],int n){ 
-int A[n];
+int A[n];      
 for(int j=0;j<n;j++)
-A[j]=arr[j];
-int index=0,brr[n];
-for(int i=0;i<n;i++){
-leftRotatearray(arr,i,n);
-brr[i]=calculate(arr,n-1);
-for(int j=0;j<n;j++)
+A[j]=arr[j];     //duplicates array
+int index=0,brr[n]; //index is breakpoint
+for(int i=0;i<n;i++){    
+leftRotatearray(arr,i,n);  //checks with all the breakpoint and calculates results and stores the value in the brr array   
+brr[i]=calculate(arr,n-1); //storing calcualted value in brr array
+for(int j=0;j<n;j++)  //initializing transformed array into base array for next iteration
 arr[j]=A[j];
 }
-int max=0;
+int max=0;  
 for(int i=0;i<n;i++){
-if(brr[i]>=max)
+if(brr[i]>=max) //checking for the max value in new brr array
 max=brr[i];
 }
-return max;
+return max;   //return maximum value to the main function.
 }
-int  calculate(int arr[],int n){
+int  calculate(int arr[],int n){    //calculates sum of the configuration
     int sum=0;
     for(int i=0;i<=n;i++){
         sum=sum+(arr[i]*i);
     }
     return sum;
 }
-void getArray(int arr[],int n){
+void getArray(int arr[],int n){  //gets array
     for(int i=0;i<n;i++)
         scanf("%d",&arr[i]);
 }
-void leftRotatearray(int arr[],int breakpoint,int n){
-    reverseArray(arr,0,breakpoint,breakpoint+1); //(array,start,end,no.of elements)
-    reverseArray(arr,breakpoint+1,n-1,n-breakpoint-1);
-    reverseArray(arr,0,n-1,n);
-
+void leftRotatearray(int arr[],int breakpoint,int n){  // array rotate by triple reverse
+    reverseArray(arr,0,breakpoint,breakpoint+1); //(array,start,end,no.of elements) reverses array from 0 to breakpoint 
+    reverseArray(arr,breakpoint+1,n-1,n-breakpoint-1); //and breakpoint +1 to end
+    reverseArray(arr,0,n-1,n); // reverses complete array
 }
 void reverseArray(int arr[],int start,int end,int n){
     int j=0,i=n;
     int start2=start,end2=end;
     while(start2<end2){
-        swap(&arr[start2],&arr[end2]);
+        swap(&arr[start2],&arr[end2]); //reverses array by swaping first and last element and so on towards each other direction
         start2++;
         end2--;
     }
 
 }
-void swap(int *x,int *y){
+void swap(int *x,int *y){ // swap values of array
     int temp=*x;
     *x=*y;
     *y=temp;
