@@ -4,16 +4,16 @@ int calculate();
 int binarysearch();
 int main() {
     int times;
-    scanf("%d",&times);
+    scanf("%d",&times); //Number of test cases 
     while(times!=0)
     {
         int n;
-        scanf("%d",&n);
+        scanf("%d",&n); //values inside array
         int arr[n];
         getArray(arr,n);
-        int value;
+        int value;     //value to be searched
         scanf("%d",&value);
-        int index=calculate(arr,n,value);
+        int index=calculate(arr,n,value); //function to check if value exists in the array
         printf("%d ",index);
         printf("\n");
         times--;
@@ -26,26 +26,26 @@ void getArray(int arr[],int n){
         scanf("%d",&arr[i]);
 }
 int calculate(int arr[],int n,int value){
-    int index=0;
+    int index=0; //index would be the point where array elements starts decreasing 
     for(int i=0;i<n;i++){
         if(arr[i]<arr[i+1])
-            index++;
+            index++; //makes value of index to be the last value of the increasing array
         else break;
     }
-    int brr[index+1],crr[n-index-1],result;
+    int brr[index+1],crr[n-index-1],result; //creates 2 arrays each of size 0 to index and index+1 to n
     for(int i=0;i<index+1;i++)
-        brr[i]=arr[i];
+        brr[i]=arr[i];      //assigning increasing value till index to array brr from arr
     for(int i=0;i<n-index-1;i++)
-        crr[i]=arr[i+index+1];
+        crr[i]=arr[i+index+1];   //assigning decreasing value till index to array crr from arr
 
-        result=binarysearch(brr,0,index,value);
+        result=binarysearch(brr,0,index,value);  //searching in array brr firsts for the value 
 
-    if(result>-1) return result;
-    else if (result==-1)
-        result=binarysearch(crr,0,n-index-1-1,value);
-       if(result!=-1)
+    if(result>-1) return result;   // if found return result
+    else if (result==-1)           //else check in decreasing array crr
+        result=binarysearch(crr,0,n-index-1-1,value);  //searching in crr
+       if(result!=-1)             //if value found return the value position + index + 1
     return index+result+1;
-       else return result;
+       else return result;   //else return -1 for unsuccessful search;
 
 }
 int binarysearch(int arr[],int start,int end,int value){
@@ -55,13 +55,13 @@ int binarysearch(int arr[],int start,int end,int value){
             return mid;
         else if(arr[mid]<value)
         {
-            if(arr[start]<=arr[end])
+            if(arr[start]<=arr[end])  //checks if the array is increasing or decreasing,executes first line if increasing or else another line if decreasing
                 return binarysearch(arr,mid+1,end,value);
             else return binarysearch(arr,start,mid,value);
         }
         else
         {
-            if(arr[start]<arr[end])
+            if(arr[start]<arr[end])  //checks if the array is increasing or decreasing,executes first line if increasing or else another line if decreasing
                 return binarysearch(arr,start,mid,value);
             else return binarysearch(arr,mid+1,end,value);
         }
