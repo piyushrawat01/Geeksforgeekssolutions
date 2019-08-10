@@ -1,0 +1,149 @@
+#include<stdio.h>                                                  //This header file contains my all created functions which i use time2time.
+#include<stdlib.h>
+#include<math.h>
+#define newline (printf("\n"));
+#define space (printf("  "));
+int compareArray();                                                  //This function is used in this program.
+int returnMax();                                                     //returns max value from passed array.
+void copyArray();                                                    //Copies first passed array into second array.
+void leftRotatearray();                                              //Left rotated from breakpoint using tripple reverse method.
+void reverseArray();                                                 //reverses array.
+void swap();                                                         //swap elements.
+void printArray();                                                   //prints array.
+void getArray();                                                     //take user input for the array.
+void getRandomArray();                                               //creates a n sized random array.
+
+void main()
+{
+int times;
+printf("L15 Enter number of test cases : ");
+scanf("%d",&times);                                                  //Number of test cases.
+while (times!=0)                                                     //Running loop for number of test cases.
+{
+int n;
+printf("L20 Enter number of elements for the array : ");             //User input for number of elements in array.
+scanf("%d",&n);
+int arr[n],temp[2*n],brrmain[n],j=0,temp2[2*n],crr[n];               //Declaring and intiallizing variables and array that are required further.
+getArray(arr,n);                                                     //Calling getArray function which will take user input array.
+copyArray(arr,crr,0,n);                                              //makes a copy of arr into crr using function copyArray.
+copyArray(arr,temp,0,n);                                             //makes a copy of arr into temp using function copyArray.
+copyArray(arr,temp,n,n);                                             //makes temp a double sized array to arr consequtively repeating all set of elements.
+printArray(temp,0,2*n-1);                                            //for debugging purpose.
+//getRandomArray(arr,n);                                             //function to get random array as an input. commented as if no.
+int count=n;                                                         //copying value of n in count.
+newline
+while(count!=0){                                                     //running loop for count times.
+     space printf("\n\nl32-----------------this is the value of count : %d--------------------------\n\n",count);space newline //for debugging purpose.
+printf("This is initial array : ");printArray(arr,0,n-1);printf("\n");//for debugging purpose.
+
+    /*rotating array by count-1 times.eg. for array having 3 elements
+	rotating it by 3-1=2 times makes no change to the array but subsequently
+	in later iterations of the array it would be rotated taking breakpoint as 1 and then 0.
+	Taking backward approach.*/
+
+	leftRotatearray(arr,count-1,n);                                  //uses function leftrotate to rotate the array from breakpoint by tripple reverse method.
+
+    printArray(arr,0,n-1); printf(" 1 4 1 1 4 1 ");                  //for debugging purpose.
+
+	/*
+     compareArray function takes in argument as the array and temp array
+     which is essentially the double array of array arr and takes in number
+     of elements as last parameter.
+	*/
+    brrmain[j]=compareArray(arr,temp,n);                             //store the values got from comapre array function into a brrmain array.
+
+space printf("\n L51 this is the value of brrmain[%d] : %d",j,brrmain[j]); //for debugging purpose.
+    j++;                                                              //increments j for next values of brrmain.
+    count--;                                                          //decrements count to runbound loop another time.
+    copyArray(crr,arr,0,n);                                           //resets the transformed array arr to again crr which is essentially copy of inital arr.
+}
+printf("\n\n\n\n Hamming distance is : %d\n\n\n",returnMax(brrmain,n)); // returns hamming distance calculated.
+times--;                                                                //decrements times to take another test case.
+}
+
+}
+
+int compareArray(int arr[],int temp[],int n){                        //actual calculation happens here.
+
+    int brr[n+1],j=0,k=0;                                            //declares array brr of size one more then arr, and couple of variables.
+
+    while(k<n+1)                                                     //runs while loop for n+1 times;
+    { int countmismatch=0;                                           //declare and intialize countmismatch to 0;
+        newline printf("L68 %d.Inside while loop of compareArray",k); newline //for debugging purpose.
+        for(int i=0;i<n;i++){                                        //runs for loop n times
+          newline printf("L70             value of arr[%d] and temp[%d] are : %d% d",i,i+k,arr[i],temp[i+k]);newline //for debugging purpose.
+    if(arr[i]!=temp[i+k])                                             //checks if arr's every element is equal to temp's element or not
+        countmismatch++;                                              //if not increments countmismatch.
+       newline printf("L59             %d.Inside while->for loop of compareArray",i); newline
+        newline printf("L60                                     This is the value of countmismatch :%d\n",countmismatch); //for debugging purpose.
+
+    }
+    k++;                                                               //increments k to runbound while loop.
+    brr[j]=countmismatch;                                              //stores value of mismatch into another array brr.
+    newline printf("L65                                                                        This is the value of brr[%d] :%d\n",j,brr[j]); newline //for debugging purpose.
+    j++;                                                               //increments brr for next value of brr.
+}
+
+    int localmax=returnMax(brr,n+1);                                    //declares and intialize localmax and stores the value got from return max which returns the maximum value from the passed array.
+
+	/*returns local max value to the main function which is then stored
+	int brrmain and finally through all the values of
+	accumilated in brrmain maximum value is given as a hamming distance.*/
+    return localmax;
+}
+
+void getArray(int arr[],int n){
+    for(int i=0;i<n;i++){
+        printf("Please enter %d value : ",i+1);
+        scanf("%d",&arr[i]);
+    }
+}
+void getRandomArray(int arr[], int n){
+        srand(time(NULL));
+        for(int i=0;i<n;i++){
+       arr[i]=rand()%100;
+    }
+}
+void printArray(int arr[],int start, int end){ //takes array to be printed and start and end as to from where to where to be printed.
+    for(int i=0;i<end-start+1;i++){
+        printf("%d ",arr[i+start]);
+    }
+
+}
+int returnMax(int arr[],int n){
+int max=0;
+for(int i=0;i<n;i++){
+    if(arr[max]<arr[i])
+            max=i;
+}
+return arr[max];
+}
+
+void copyArray(int arr[],int brr[],int start,int n){
+for(int i=0;i<n;i++)
+    brr[i+start]=arr[i];
+}
+
+void leftRotatearray(int arr[],int breakpoint,int n) {
+    reverseArray(arr,0,breakpoint,breakpoint+1); //(array,start,end,no.of elements) reverses array from 0 to breakpoint
+    reverseArray(arr,breakpoint+1,n-1,n-breakpoint-1); //and breakpoint +1 to end
+    reverseArray(arr,0,n-1,n); // reverses complete array
+}
+
+void reverseArray(int arr[],int start,int end,int n){
+    int j=0,i=n;
+    int start2=start,end2=end;
+    while(start2<end2){
+        swap(&arr[start2],&arr[end2]); //reverses array by swaping first and last element and so on towards each other direction
+        start2++;
+        end2--;
+    }
+
+}
+void swap (int *x,int *y){
+    int temp;
+    temp=*x;
+    *x=*y;
+    *y=temp;
+}
+
